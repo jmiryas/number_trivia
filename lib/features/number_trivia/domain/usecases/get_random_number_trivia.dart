@@ -6,26 +6,20 @@ import '../../../../core/error/failures.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../repositories/number_trivia_repository.dart';
 
-class GetConcreteNumberTrivia implements UseCase<NumberTrivia, Params> {
+class GetRandomNumberTrivia extends UseCase<NumberTrivia, NoParams> {
   final NumberTriviaRepository numberTriviaRepository;
 
-  GetConcreteNumberTrivia({
+  GetRandomNumberTrivia({
     required this.numberTriviaRepository,
   });
 
   @override
-  Future<Either<Failure, NumberTrivia>> call(Params params) async {
-    return await numberTriviaRepository.getConcreteNumberTrivia(params.number);
+  Future<Either<Failure, NumberTrivia>> call(NoParams params) async {
+    return await numberTriviaRepository.getRandomNumberTrivia();
   }
 }
 
-class Params extends Equatable {
-  final int number;
-
-  const Params({
-    required this.number,
-  });
-
+class NoParams extends Equatable {
   @override
-  List<Object> get props => [number];
+  List<Object> get props => [];
 }
