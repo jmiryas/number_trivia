@@ -60,7 +60,13 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
   Future<void> _getRandomNumberTriviaEventHandler(
     GetTriviaRandomNumber event,
     Emitter<NumberTriviaState> emit,
-  ) async {}
+  ) async {
+    emit(NumberTriviaLoadingState());
+
+    final either = await randomNumber(NoParams());
+
+    _emitNumberTriviaRetrievalResult(either, emit);
+  }
 
   String _mapFailureToMessage(Failure failure) {
     late final String failureMessage;
@@ -68,17 +74,14 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
     switch (failure.runtimeType) {
       case ServerFailure:
         failureMessage = serverFailureMessage;
-
         break;
 
       case CacheFailure:
         failureMessage = cacheFailureMessage;
-
         break;
 
       default:
         failureMessage = 'Unexpected error';
-
         break;
     }
 
